@@ -2,16 +2,17 @@
 
 require './lib/player'
 
-describe 'Player' do
+describe Player do
   subject(:player) { described_class.new }
 
-  describe '#get_name' do
+  describe '#gets_name' do
     before do
-      allow(:Player).to receive(:gets).and_return('James')
+      allow(player).to receive(:gets).and_return('James')
+      allow(player).to receive(:puts)
     end
 
     it 'Gets the player name' do
-      player.get_name
+      player.gets_name
       expect(player.name).to eql('James')
     end
   end
