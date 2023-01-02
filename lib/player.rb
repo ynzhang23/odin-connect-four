@@ -15,13 +15,14 @@ class Player
   end
 
   def update_symbol
-    @symbol = '☻' if gets_symbol == '1'
-    @symbol = '☺' if gets_symbol == '2'
+    choice = gets_symbol
+    @symbol = '☻' if choice == '1'
+    @symbol = '☺' if choice == '2'
   end
 
   def gets_symbol
     symbol_question
-    choice = gets.chomp 
+    choice = gets.chomp
     until valid_symbol?(choice) do
       puts 'Input error!'
       choice = gets.chomp
