@@ -40,4 +40,30 @@ describe Player do
       end
     end
   end
+
+  describe '#valid_symbol?' do
+    context 'When player enters a wrong input' do
+      it 'Returns false' do
+        choice = '3'
+        result = player.valid_symbol?(choice)
+        expect(result).to eql(false)
+      end
+    end
+
+    context 'When player enters no input' do
+      it 'Returns false' do
+        choice = nil
+        result = player.valid_symbol?(choice)
+        expect(result).to eql(false)
+      end
+    end
+
+    context 'When player enters the right input' do
+      it 'Returns true' do
+        choice = '2'
+        result = player.valid_symbol?(choice)
+        expect(result).to eql(true)
+      end
+    end
+  end
 end
