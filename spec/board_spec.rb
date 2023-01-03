@@ -58,4 +58,72 @@ describe Board do
       end
     end
   end
+
+  describe '#gets_move' do
+    valid_error_msg = 'Invalid column'
+    full_error_msg = 'Column full'
+
+    context 'When move is allowed' do
+      before do
+        allow(board).to receive(:gets).and_return('1')
+        allow(board).to receive(:puts).with('Please select a column')
+      end
+
+      it 'Does not return error message' do
+        expect(board).to_not receive(:puts).with(valid_error_msg)
+        expect(board).to_not receive(:puts).with(full_error_msg)
+        board.gets_move
+      end
+    end
+
+    context 'When first column is not valid column, second move is allowed' do
+      before do
+        valid_input = '1'
+        invalid_input = 'a'
+        allow(board).to receive(:gets).and_return(invalid_input, valid_input)
+        allow(board).to receive(:puts).with('Please select a column')
+      end
+
+      it 'Returns error message (valid)' do
+        expect(board).to receive(:puts).with(valid_error_msg).once
+        board.gets_move
+      end
+    end
+
+    context 'When first move column is full, second move is allowed' do
+      subject(:full_board) { described_class.new }
+      before do
+        full_board.columns['2'] = Array.new(6)
+        valid_input = '1'
+        full_input = '2'
+        allow(full_board).to receive(:gets).and_return(full_input, valid_input)
+        allow(full_board).to receive(:puts).with('Please select a column')
+      end
+
+      it 'Returns error message (full)' do
+        expect(full_board).to receive(:puts).with(full_error_msg).once
+        full_board.gets_move
+      end
+    end
+
+    context 'When first move column is full, second move is not valid column, third move is allowed' do
+      subject(:full_board) { described_class.new }
+      before do
+        full_board.columns['2'] = Array.new(6)
+
+        invalid_input = 'a'
+        valid_input = '1'
+        full_input = '2'
+        allow(full_board).to receive(:gets).and_return(invalid_input, full_input, valid_input)
+
+        allow(full_board).to receive(:puts).with('Please select a column')
+      end
+
+      it 'Returns error message (full) (invalid)' do
+        expect(full_board).to receive(:puts).with(full_error_msg)
+        expect(full_board).to receive(:puts).with(valid_error_msg)
+        full_board.gets_move
+      end
+    end
+  end
 end
