@@ -1,4 +1,4 @@
-# string-frozen-literal: true
+# frozen-string-literal: true
 
 # Handles board creation with player positions, move 
 # verification and winning-condition
@@ -20,6 +20,11 @@ class Board
       '6' => [],
       '7' => []
     }
+  end
+
+  def update_board(player)
+    column_number = gets_move
+    @columns[column_number].push(player.symbol)
   end
 
   def gets_move
@@ -47,10 +52,5 @@ class Board
     return true if @columns[column].length >= 6
 
     false
-  end
-
-  def update_board(player)
-    column_number = gets_move
-    @columns[column_number].push(player.symbol)
   end
 end
