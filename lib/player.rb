@@ -4,9 +4,9 @@
 class Player
   attr_reader :name, :symbol
 
-  def initialize
-    @name = nil
-    @symbol = nil
+  def initialize(name = nil, symbol = nil)
+    @name = name
+    @symbol = symbol
   end
 
   def gets_name
