@@ -1,4 +1,4 @@
-# string-frozen-literal: true
+# frozen-string-literal: true
 
 require './lib/player'
 
