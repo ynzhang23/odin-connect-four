@@ -1,6 +1,7 @@
-# string-frozen-literal: true
+# frozen-string-literal: true
 
 require './lib/board'
+require './lib/player'
 
 describe Board do
   subject(:board) { described_class.new }
@@ -124,6 +125,18 @@ describe Board do
         expect(full_board).to receive(:puts).with(valid_error_msg)
         full_board.gets_move
       end
+    end
+  end
+
+  describe '#update_board' do
+    subject(:player) { Player.new('john', '☻') }
+    before do
+      allow(board).to receive(:gets_move).and_return('1')
+    end
+
+    it 'Push the player name into the column array' do
+      board.update_board(player)
+      expect(board.columns['1'][-1]).to eql(player.symbol)
     end
   end
 end
