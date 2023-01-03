@@ -30,4 +30,32 @@ describe Board do
       end
     end
   end
+
+  describe '#full_column?' do
+    context 'When the column is not full' do
+      subject(:full_board) { described_class.new }
+      before do
+        full_board.columns['1'] = Array.new(5)
+      end
+
+      it 'Returns false' do
+        column = '1'
+        result = full_board.full_column?(column)
+        expect(result).to eql(false)
+      end
+    end
+
+    context 'When the column is full' do
+      subject(:full_board) { described_class.new }
+      before do
+        full_board.columns['1'] = Array.new(6)
+      end
+
+      it 'Returns true' do
+        column = '1'
+        result = full_board.full_column?(column)
+        expect(result).to eql(true)
+      end
+    end
+  end
 end
