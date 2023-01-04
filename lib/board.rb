@@ -44,7 +44,8 @@ class Board
   end
 
   def update_board(player)
-    puts "#{player.name}, please select a column"
+    puts "
+    #{player.name}, please select a column"
     column_number = gets_move
     row = @columns[column_number].count('☻') + @columns[column_number].count('☺')
     @columns[column_number][row] = player.symbol

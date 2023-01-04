@@ -28,6 +28,7 @@ board.print_board
 # Create player one
 player_one = Player.new
 # Ask for player 1's name
+player_one.name_question_player_one
 player_one.gets_name
 # Ask for player 1's choice of ascii logo
 player_one.update_symbol
@@ -35,6 +36,7 @@ player_one.update_symbol
 # Create player two
 player_two = Player.new
 # Ask for player 2's name
+player_two.name_question_player_two
 player_two.gets_name
 # Ask for player 2's choice of ascii logo
 player_two.symbol = '☺' if player_one.symbol == '☻'

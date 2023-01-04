@@ -11,7 +11,6 @@ class Player
   end
 
   def gets_name
-    name_question
     @name = gets.chomp
   end
 
@@ -37,12 +36,19 @@ class Player
   end
 
   def symbol_question
-    puts 'Please choose your symbol:
+    puts '
+    Please choose your symbol:
     1: ☻
     2: ☺'
   end
 
-  def name_question
-    puts 'Please enter your name: '
+  def name_question_player_one
+    puts '
+    Player 1, please enter your name: '
+  end
+
+  def name_question_player_two
+    puts '
+    Player 2, please enter your name: '
   end
 end
