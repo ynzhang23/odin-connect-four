@@ -1,4 +1,4 @@
-# string-frozen-literal: true
+# frozen-string-literal: true
 
 # Handles player creation with player name and piece
 class Player
