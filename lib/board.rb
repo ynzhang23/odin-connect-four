@@ -13,13 +13,13 @@ class Board
 
   def create_board
     {
-      1 => [],
-      2 => [],
-      3 => [],
-      4 => [],
-      5 => [],
-      6 => [],
-      7 => []
+      1 => Array.new(6, ' '),
+      2 => Array.new(6, ' '),
+      3 => Array.new(6, ' '),
+      4 => Array.new(6, ' '),
+      5 => Array.new(6, ' '),
+      6 => Array.new(6, ' '),
+      7 => Array.new(6, ' ')
     }
   end
 
@@ -33,12 +33,12 @@ class Board
     seven = @columns[7]
 
     puts "
-    6 #{one[5]} #{two[5]} #{three[5]} #{four[5]} #{five[5]} #{six[5]} #{seven[5]}
-    5 #{one[4]} #{two[4]} #{three[4]} #{four[4]} #{five[4]} #{six[4]} #{seven[4]}
-    4 #{one[3]} #{two[3]} #{three[3]} #{four[3]} #{five[3]} #{six[3]} #{seven[3]}
-    3 #{one[2]} #{two[2]} #{three[2]} #{four[2]} #{five[2]} #{six[2]} #{seven[2]}
-    2 #{one[1]} #{two[1]} #{three[1]} #{four[1]} #{five[1]} #{six[1]} #{seven[1]}
-    1 #{one[0]} #{two[0]} #{three[0]} #{four[0]} #{five[0]} #{six[0]} #{seven[0]}
+      #{one[5]} #{two[5]} #{three[5]} #{four[5]} #{five[5]} #{six[5]} #{seven[5]}
+      #{one[4]} #{two[4]} #{three[4]} #{four[4]} #{five[4]} #{six[4]} #{seven[4]}
+      #{one[3]} #{two[3]} #{three[3]} #{four[3]} #{five[3]} #{six[3]} #{seven[3]}
+      #{one[2]} #{two[2]} #{three[2]} #{four[2]} #{five[2]} #{six[2]} #{seven[2]}
+      #{one[1]} #{two[1]} #{three[1]} #{four[1]} #{five[1]} #{six[1]} #{seven[1]}
+      #{one[0]} #{two[0]} #{three[0]} #{four[0]} #{five[0]} #{six[0]} #{seven[0]}
       1 2 3 4 5 6 7
     "
   end
@@ -46,7 +46,8 @@ class Board
   def update_board(player)
     puts "#{player.name}, please select a column"
     column_number = gets_move
-    @columns[column_number].push(player.symbol)
+    row = @columns[column_number].count('☻') + @columns[column_number].count('☺')
+    @columns[column_number][row] = player.symbol
   end
 
   def gets_move
@@ -60,7 +61,7 @@ class Board
       column = gets.chomp
     end
     @last_move_column = column.to_i
-    @last_move_row = @columns[column.to_i].length
+    @last_move_row = @columns[column.to_i].count('☻') + @columns[column.to_i].count('☺')
     column.to_i
   end
 
@@ -72,9 +73,9 @@ class Board
   end
 
   def full_column?(column)
-    return true if @columns[column.to_i].length >= 6
+    return false if @columns[column.to_i][-1] == ' '
 
-    false
+    true
   end
 
   def matching_adjacent_piece(player)
@@ -194,7 +195,8 @@ class Board
   end
 
   def left_win?(symbol, column, row)
-    return false if (column - 3) > 1
+    return false if (column - 3) < 1
+
     3.times do
       column -= 1
       return false unless @columns[column][row] == symbol
@@ -222,7 +224,7 @@ class Board
   end
 
   def top_right_win?(symbol, column, row)
-    return false if (column + 1) > 7 || (row + 1) > 5
+    return false if (column + 3) > 7 || (row + 3) > 5
     3.times do
       column += 1
       row += 1
@@ -242,7 +244,7 @@ class Board
   end
 
   def bottom_right_win?(symbol, column, row)
-    return false if (column + 1) > 7 || (row - 1).negative?
+    return false if (column + 3) > 7 || (row - 3).negative?
     3.times do
       column += 1
       row -= 1
