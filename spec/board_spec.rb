@@ -139,4 +139,112 @@ describe Board do
       expect(board.columns[1][-1]).to eql(player.symbol)
     end
   end
+
+  describe '#matching_adjacent_piece' do
+    subject(:matching_board) { described_class.new }
+    subject(:player) { Player.new('james', '☻')}
+
+    context 'When the move is at the corner and matching piece on the top' do
+      before do
+        allow(matching_board).to receive(:gets).and_return('1')
+        allow(matching_board).to receive(:puts)
+      end
+
+      it 'Returns the array containing "top" only' do
+        # Place last move at column 1, row 0
+        matching_board.gets_move
+        matching_board.update_board(player)
+        # Set up condition for adjacent piece
+        matching_board.columns[1][1] = '☻'
+        # Act
+        result = matching_board.matching_adjacent_piece(player)
+        # Assert
+        expect(result).to eql(['top'])
+      end
+    end
+
+    context 'When matching adjacent pieces is bottom' do
+      before do
+        allow(matching_board).to receive(:gets).and_return('3')
+        allow(matching_board).to receive(:puts)
+      end
+
+      it 'Returns the array containing "bottom" only' do
+        # Set up condition for adjacent piece
+        matching_board.columns[3][0] = '☻'
+        # Place last move at column 3, row 1
+        matching_board.gets_move
+        matching_board.update_board(player)
+        # Act
+        result = matching_board.matching_adjacent_piece(player)
+        # Assert
+        expect(result).to eql(['bottom'])
+      end
+    end
+
+    context 'When matching adjacent pieces is left and right' do
+      before do
+        allow(matching_board).to receive(:gets).and_return('4')
+        allow(matching_board).to receive(:puts)
+      end
+
+      it 'Returns the array containing "left" and "right"' do
+        # Set up condition for adjacent piece
+        matching_board.columns[3][0] = '☻'
+        matching_board.columns[5][0] = '☻'
+        # Place last move at column 4, row 0
+        matching_board.gets_move
+        matching_board.update_board(player)
+        # Act
+        result = matching_board.matching_adjacent_piece(player)
+        # Assert
+        expect(result).to eql(%w[left right])
+      end
+    end
+
+    context 'When there is no matching adjacent pieces' do
+      before do
+        allow(matching_board).to receive(:gets).and_return('4')
+        allow(matching_board).to receive(:puts)
+      end
+
+      it 'Returns an empty array' do
+        # Place unmatching piece
+        matching_board.columns[3][0] = '☺'
+        # Place last move at column 4, row 0
+        matching_board.gets_move
+        matching_board.update_board(player)
+        # Act
+        result = matching_board.matching_adjacent_piece(player)
+        # Assert
+        expect(result).to eql([])
+      end
+    end
+
+    context 'When there is matching adjacent pieces all around' do
+      before do
+        allow(matching_board).to receive(:gets).and_return('4')
+        allow(matching_board).to receive(:puts)
+      end
+
+      it 'Returns the array containing all' do
+        # Set up condition for adjacent piece
+        matching_board.columns[3][0] = '☻'
+        matching_board.columns[3][1] = '☻'
+        matching_board.columns[3][2] = '☻'
+        matching_board.columns[4][0] = '☻'
+        matching_board.columns[5][0] = '☻'
+        matching_board.columns[5][1] = '☻'
+        matching_board.columns[5][2] = '☻'
+        # Place last move at column 4, row 1
+        matching_board.gets_move
+        matching_board.update_board(player)
+        matching_board.columns[4][2] = '☻'
+        # Act
+        result = matching_board.matching_adjacent_piece(player)
+        # Assert
+        expect(result).to eql(%w[top bottom left right top_left top_right bottom_left bottom_right])
+      end
+    end
+  end
 end
