@@ -247,4 +247,237 @@ describe Board do
       end
     end
   end
+
+  describe '#winning_move?' do
+    subject(:winning_board) { described_class.new }
+    subject(:player) { Player.new('james', '☻') }
+
+    # Places at [1][0] when [5][0] is filled
+    context 'When it is not a winning move' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('1')
+      end
+
+      it 'Returns false' do
+        winning_board.columns[5][0] = '☻'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(false)
+      end
+    end
+
+    # Places at [4][3] when the bottom three is filled
+    context 'When it is a winning move in the bottom direction' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns true' do
+        winning_board.columns[4][0] = '☻'
+        winning_board.columns[4][1] = '☻'
+        winning_board.columns[4][2] = '☻'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(true)
+      end
+    end
+
+    context 'When it is blocked off in the bottom direction by ☺' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns false' do
+        winning_board.columns[4][0] = '☻'
+        winning_board.columns[4][1] = '☺'
+        winning_board.columns[4][2] = '☻'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(false)
+      end
+    end
+
+    # Places at [4][0] when the left three is filled
+    context 'When it is a winning move in the left direction' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns true' do
+        winning_board.columns[1][0] = '☻'
+        winning_board.columns[2][0] = '☻'
+        winning_board.columns[3][0] = '☻'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(true)
+      end
+    end
+
+    context 'When it is blocked off in the left direction by ☺' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns false' do
+        winning_board.columns[1][0] = '☻'
+        winning_board.columns[2][0] = '☺'
+        winning_board.columns[3][0] = '☻'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(false)
+      end
+    end
+
+    # Places at [4][0] when the right three is filled
+    context 'When it is a winning move in the right direction' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns true' do
+        winning_board.columns[5][0] = '☻'
+        winning_board.columns[6][0] = '☻'
+        winning_board.columns[7][0] = '☻'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(true)
+      end
+    end
+
+    # Places at [4][0] when the top left three is filled
+    context 'When it is a winning move in the top left direction' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns true' do
+        winning_board.columns[3][1] = '☻'
+        winning_board.columns[2][2] = '☻'
+        winning_board.columns[1][3] = '☻'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(true)
+      end
+    end
+
+    # Places at [4][0] when the top right three is filled
+    context 'When it is a winning move in the top right direction' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns true' do
+        winning_board.columns[5][1] = '☻'
+        winning_board.columns[6][2] = '☻'
+        winning_board.columns[7][3] = '☻'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(true)
+      end
+    end
+
+    # Places at [4][3] when the bottom left three is filled
+    context 'When it is a winning move in the bottom left direction' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns true' do
+        winning_board.columns[3][2] = '☻'
+        winning_board.columns[2][1] = '☻'
+        winning_board.columns[1][0] = '☻'
+        winning_board.columns[4][2] = '☻'
+        winning_board.columns[4][1] = '☻'
+        winning_board.columns[4][0] = '☺'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(true)
+      end
+    end
+
+    # Places at [4][3] when the bottom left three is filled but blocked off
+    context 'When it is blocked off in the bottom left direction' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns false' do
+        winning_board.columns[3][2] = '☻'
+        winning_board.columns[2][1] = '☺'
+        winning_board.columns[1][0] = '☻'
+        winning_board.columns[4][2] = '☻'
+        winning_board.columns[4][1] = '☻'
+        winning_board.columns[4][0] = '☺'
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(false)
+      end
+    end
+
+    # Places at [4][0] when both top right and top left is filled to win
+    context 'When it is a winning move in two directions' do
+      before do
+        allow(winning_board).to receive(:puts)
+        allow(winning_board).to receive(:gets).and_return('4')
+      end
+
+      it 'Returns true' do
+        # Top Right direction
+        winning_board.columns[5][1] = '☻'
+        winning_board.columns[6][2] = '☻'
+        winning_board.columns[7][3] = '☻'
+        # Top Left direction
+        winning_board.columns[3][1] = '☻'
+        winning_board.columns[2][2] = '☻'
+        winning_board.columns[1][3] = '☻'
+
+        winning_board.gets_move
+        winning_board.update_board(player)
+
+        result = winning_board.winning_move?(player)
+
+        expect(result).to eql(true)
+      end
+    end
+  end
 end
