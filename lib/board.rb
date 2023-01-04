@@ -44,12 +44,12 @@ class Board
   end
 
   def update_board(player)
+    puts "#{player.name}, please select a column"
     column_number = gets_move
     @columns[column_number].push(player.symbol)
   end
 
   def gets_move
-    puts 'Please select a column'
     column = gets.chomp
     until valid_column?(column)
       puts 'Invalid column'
@@ -138,5 +138,116 @@ class Board
     return 'out of bound' if (column + 1) > 7 || (row - 1).negative?
 
     @columns[column + 1][row - 1]
+  end
+
+  def winning_move?(player)
+    column = @last_move_column
+    symbol = player.symbol
+    row = @last_move_row
+    direction_array = matching_adjacent_piece(player)
+    direction_array.each do |direction|
+      if direction == 'top'
+        return true if top_win?(symbol, column, row)
+      end
+      if direction == 'bottom'
+        return true if bottom_win?(symbol, column, row)
+      end
+      if direction == 'left'
+        return true if left_win?(symbol, column, row)
+      end
+      if direction == 'right'
+        return true if right_win?(symbol, column, row)
+      end
+      if direction == 'top_left'
+        return true if top_left_win?(symbol, column, row)
+      end
+      if direction == 'top_right'
+        return true if top_right_win?(symbol, column, row)
+      end
+      if direction == 'bottom_left'
+        return true if bottom_left_win?(symbol, column, row)
+      end
+      if direction == 'bottom_right'
+        return true if bottom_right_win?(symbol, column, row)
+      end
+    end
+    false
+  end
+
+  def top_win?(symbol, column, row)
+    return false if (row + 3) > 5
+    3.times do
+      row += 1
+      return false unless @columns[column][row] == symbol
+    end
+    true
+  end
+
+  def bottom_win?(symbol, column, row)
+    return false if (row - 3).negative?
+
+    3.times do
+      row -= 1
+      return false unless @columns[column][row] == symbol
+    end
+    true
+  end
+
+  def left_win?(symbol, column, row)
+    return false if (column - 3) > 1
+    3.times do
+      column -= 1
+      return false unless @columns[column][row] == symbol
+    end
+    true
+  end
+
+  def right_win?(symbol, column, row)
+    return false if (column + 3) > 7
+    3.times do
+      column += 1
+      return false unless @columns[column][row] == symbol
+    end
+    true
+  end
+
+  def top_left_win?(symbol, column, row)
+    return false if (column - 3) < 1 || (row + 3) > 5
+    3.times do
+      row += 1
+      column -= 1
+      return false unless @columns[column][row] == symbol
+    end
+    true
+  end
+
+  def top_right_win?(symbol, column, row)
+    return false if (column + 1) > 7 || (row + 1) > 5
+    3.times do
+      column += 1
+      row += 1
+      return false unless @columns[column][row] == symbol
+    end
+    true
+  end
+
+  def bottom_left_win?(symbol, column, row)
+    return false if (column - 3) < 1 || (row - 3).negative?
+    3.times do
+      row -= 1
+      column -= 1
+      return false unless @columns[column][row] == symbol
+    end
+    true
+  end
+
+  def bottom_right_win?(symbol, column, row)
+    return false if (column + 1) > 7 || (row - 1).negative?
+    3.times do
+      column += 1
+      row -= 1
+      return false unless @columns[column][row] == symbol
+    end
+    true
   end
 end
