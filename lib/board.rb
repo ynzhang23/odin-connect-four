@@ -12,24 +12,24 @@ class Board
 
   def create_board
     {
-      '1' => [],
-      '2' => [],
-      '3' => [],
-      '4' => [],
-      '5' => [],
-      '6' => [],
-      '7' => []
+      1 => [],
+      2 => [],
+      3 => [],
+      4 => [],
+      5 => [],
+      6 => [],
+      7 => []
     }
   end
 
   def print_board
-    one = @columns['1']
-    two = @columns['2']
-    three = @columns['3']
-    four = @columns['4']
-    five = @columns['5']
-    six = @columns['6']
-    seven = @columns['7']
+    one = @columns[1]
+    two = @columns[2]
+    three = @columns[3]
+    four = @columns[4]
+    five = @columns[5]
+    six = @columns[6]
+    seven = @columns[7]
 
     puts "
     6 #{one[5]} #{two[5]} #{three[5]} #{four[5]} #{five[5]} #{six[5]} #{seven[5]}
@@ -58,7 +58,7 @@ class Board
       puts 'Column full'
       column = gets.chomp
     end
-    column
+    column.to_i
   end
 
   def valid_column?(column)
@@ -69,8 +69,11 @@ class Board
   end
 
   def full_column?(column)
-    return true if @columns[column].length >= 6
+    return true if @columns[column.to_i].length >= 6
 
     false
+  end
+
+  def win_condition(last_move)
   end
 end
