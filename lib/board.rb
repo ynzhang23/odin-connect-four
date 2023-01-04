@@ -3,11 +3,12 @@
 # Handles board creation with player positions, move 
 # verification and winning-condition
 class Board
-  attr_reader :win_condition, :player
-  attr_accessor :columns
+  attr_accessor :columns, :last_move_column, :last_move_row
 
   def initialize
     @columns = create_board
+    @last_move_column = nil
+    @last_move_row = nil
   end
 
   def create_board
@@ -58,6 +59,8 @@ class Board
       puts 'Column full'
       column = gets.chomp
     end
+    @last_move_column = column.to_i
+    @last_move_row = @columns[column.to_i].length
     column.to_i
   end
 
@@ -74,6 +77,66 @@ class Board
     false
   end
 
-  def win_condition(last_move)
+  def matching_adjacent_piece(player)
+    adjacent_match = []
+    symbol = player.symbol
+    adjacent_match.push('top') if symbol == adjacent_top(@last_move_column, @last_move_row)
+    adjacent_match.push('bottom') if symbol == adjacent_bottom(@last_move_column, @last_move_row)
+    adjacent_match.push('left') if symbol == adjacent_left(@last_move_column, @last_move_row)
+    adjacent_match.push('right') if symbol == adjacent_right(@last_move_column, @last_move_row)
+    adjacent_match.push('top_left') if symbol == adjacent_top_left(@last_move_column, @last_move_row)
+    adjacent_match.push('top_right') if symbol == adjacent_top_right(@last_move_column, @last_move_row)
+    adjacent_match.push('bottom_left') if symbol == adjacent_bottom_left(@last_move_column, @last_move_row)
+    adjacent_match.push('bottom_right') if symbol == adjacent_bottom_right(@last_move_column, @last_move_row)
+
+    adjacent_match
+  end
+
+  def adjacent_top(column, row)
+    return 'out of bound' if (row + 1) > 5
+
+    @columns[column][row + 1]
+  end
+
+  def adjacent_bottom(column, row)
+    return 'out of bound' if (row - 1).negative?
+
+    @columns[column][row - 1]
+  end
+
+  def adjacent_left(column, row)
+    return 'out of bound' if (column - 1) < 1
+
+    @columns[column - 1][row]
+  end
+
+  def adjacent_right(column, row)
+    return 'out of bound' if (column + 1) > 7
+
+    @columns[column + 1][row]
+  end
+
+  def adjacent_top_left(column, row)
+    return 'out of bound' if (column - 1) < 1 || (row + 1) > 5
+
+    @columns[column - 1][row + 1]
+  end
+
+  def adjacent_top_right(column, row)
+    return 'out of bound' if (column + 1) > 7 || (row + 1) > 5
+
+    @columns[column + 1][row + 1]
+  end
+
+  def adjacent_bottom_left(column, row)
+    return 'out of bound' if (column - 1) < 1 || (row - 1).negative?
+
+    @columns[column - 1][row - 1]
+  end
+
+  def adjacent_bottom_right(column, row)
+    return 'out of bound' if (column + 1) > 7 || (row - 1).negative?
+
+    @columns[column + 1][row - 1]
   end
 end
