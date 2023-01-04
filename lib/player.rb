@@ -2,7 +2,8 @@
 
 # Handles player creation with player name and piece
 class Player
-  attr_reader :name, :symbol
+  attr_reader :name
+  attr_accessor :symbol
 
   def initialize(name = nil, symbol = nil)
     @name = name
