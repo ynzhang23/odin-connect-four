@@ -9,7 +9,7 @@ describe Board do
   describe '#valid_column?' do
     context 'When the user enters a valid number' do
       it 'Returns true' do
-        column = '7'
+        column = 7
         result = board.valid_column?(column)
         expect(result).to eql(true)
       end
@@ -25,7 +25,7 @@ describe Board do
 
     context 'When the user enters a invalid number' do
       it 'Returns false' do
-        column = '8'
+        column = 8
         result = board.valid_column?(column)
         expect(result).to eql(false)
       end
@@ -36,11 +36,11 @@ describe Board do
     context 'When the column is not full' do
       subject(:full_board) { described_class.new }
       before do
-        full_board.columns['1'] = Array.new(5)
+        full_board.columns[1] = Array.new(5)
       end
 
       it 'Returns false' do
-        column = '1'
+        column = 1
         result = full_board.full_column?(column)
         expect(result).to eql(false)
       end
@@ -49,11 +49,11 @@ describe Board do
     context 'When the column is full' do
       subject(:full_board) { described_class.new }
       before do
-        full_board.columns['1'] = Array.new(6)
+        full_board.columns[1] = Array.new(6)
       end
 
       it 'Returns true' do
-        column = '1'
+        column = 1
         result = full_board.full_column?(column)
         expect(result).to eql(true)
       end
@@ -77,7 +77,7 @@ describe Board do
       end
     end
 
-    context 'When first column is not valid column, second move is allowed' do
+    context 'When first move column is not valid column, second move is allowed' do
       before do
         valid_input = '1'
         invalid_input = 'a'
@@ -94,7 +94,7 @@ describe Board do
     context 'When first move column is full, second move is allowed' do
       subject(:full_board) { described_class.new }
       before do
-        full_board.columns['2'] = Array.new(6)
+        full_board.columns[2] = Array.new(6)
         valid_input = '1'
         full_input = '2'
         allow(full_board).to receive(:gets).and_return(full_input, valid_input)
@@ -110,7 +110,7 @@ describe Board do
     context 'When first move column is full, second move is not valid column, third move is allowed' do
       subject(:full_board) { described_class.new }
       before do
-        full_board.columns['2'] = Array.new(6)
+        full_board.columns[2] = Array.new(6)
 
         invalid_input = 'a'
         valid_input = '1'
@@ -131,12 +131,12 @@ describe Board do
   describe '#update_board' do
     subject(:player) { Player.new('john', '☻') }
     before do
-      allow(board).to receive(:gets_move).and_return('1')
+      allow(board).to receive(:gets_move).and_return(1)
     end
 
     it 'Push the player name into the column array' do
       board.update_board(player)
-      expect(board.columns['1'][-1]).to eql(player.symbol)
+      expect(board.columns[1][-1]).to eql(player.symbol)
     end
   end
 end
