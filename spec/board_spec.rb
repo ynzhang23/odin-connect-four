@@ -36,7 +36,7 @@ describe Board do
     context 'When the column is not full' do
       subject(:full_board) { described_class.new }
       before do
-        full_board.columns[1] = Array.new(5)
+        full_board.columns[1] = Array.new(5, ' ')
       end
 
       it 'Returns false' do
@@ -136,7 +136,7 @@ describe Board do
 
     it 'Push the player name into the column array' do
       board.update_board(player)
-      expect(board.columns[1][-1]).to eql(player.symbol)
+      expect(board.columns[1][0]).to eql(player.symbol)
     end
   end
 
