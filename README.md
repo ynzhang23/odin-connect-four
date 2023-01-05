@@ -1,5 +1,6 @@
 # odin-connect-four
-Re-creating the classic connect four game in the terminal for learning TDD
+Re-creating the classic connect four game in the terminal for learning the process of Test Driven Development (TDD)  
+Try the game! https://replit.com/@ynzhang23/odin-connect-four#player.rb
 ## Learning Outcome
 This project is coded with the objective of learning RSpec and the fundamentals of TDD process. The project used different RSpec fundamentals such as stubs and doubles, and exposed me to the benefits of TDD in generating cleaner and more direct code. By dissecting the problem, the coding process is more focused and efficient.
 ## Challenge Faced
